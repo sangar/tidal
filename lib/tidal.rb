@@ -2,6 +2,7 @@ require "tidal/version"
 require "date"
 require "net/http"
 require "nokogiri"
+require "time"
 
 module Tidal
   class << self
@@ -52,7 +53,17 @@ module Tidal
       end
 
       def row_to_h(row)
-        row.attributes.map {|name, attr| [name, attr.value] }.to_h
+        row.attributes.map {|name, attr|
+          if attr.value.match(/\dT\d/)
+            [name, Time.parse(attr.value).to_datetime]
+          elsif attr.value.match(/\d\.\d/)
+            [name, attr.value.to_f]
+          elsif attr.value.match(/\d/)
+            [name, attr.value.to_i]
+          else
+            [name, attr.value]
+          end
+        }.to_h
       end
 
       def parse_tidal_data(res)

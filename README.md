@@ -1,5 +1,7 @@
 # Tidal
 
+Tidal forecast from the Norwegian Mapping Authority, Hydrographic Service
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -32,7 +34,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/tidal.
+Bug reports and pull requests are welcome on GitHub at https://github.com/sangar/tidal.
 
 ## License
 

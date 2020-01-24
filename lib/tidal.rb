@@ -107,7 +107,7 @@ module Tidal
           lat: options[:latitude],
           lon: options[:longitude],
           from: options[:date].strftime("%-m/%d/%Y"),
-          to: options[:date].strftime("%-m/%d/%Y"),
+          to: (options[:date] + 1).strftime("%-m/%d/%Y"),
           lang: options[:lang],
           interval: 'hoylav',
           place: '',
@@ -121,7 +121,6 @@ module Tidal
 
       def json_obj_to_h(obj)
         obj.map {|key, value|
-          puts "key: #{key}, value: #{value}"
           if value.nil?
             [key, value]
           elsif value.is_a?(Integer)
@@ -139,12 +138,11 @@ module Tidal
       end
 
       def parse_high_low_data(res)
-
         parsed = JSON.parse(res.body)
 
-        #puts "data: #{parsed}"
-
-        parsed["days"][0]["data"].map {|obj| json_obj_to_h(obj) }
+        dayone = parsed["days"][0]["data"].map {|obj| json_obj_to_h(obj) }
+        daytwo = parsed["days"][1]["data"].map {|obj| json_obj_to_h(obj) }
+        dayone + daytwo
       end
   end
 end

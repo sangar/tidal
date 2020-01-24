@@ -7,15 +7,23 @@ require "time"
 module Tidal
   class << self
     def for(options)
+      options = merge_default_params(options)
+
       res = get_tidal_data(options)
       return unless res.is_a?(Net::HTTPSuccess)
 
-      parse_tidal_data(res)
+      retval = parse_tidal_data(res)
+
+      res = get_high_low_data(options)
+      return unless res.is_a?(Net::HTTPSuccess)
+
+      retval["highlow"] = parse_high_low_data(res)
+      retval
     end
 
     private
-      def get_tidal_data(options)
-        options = {
+      def merge_default_params(options)
+        {
           latitude: nil,
           longitude: nil,
           date: DateTime.now,
@@ -23,13 +31,15 @@ module Tidal
           refcode: "cd",
           place: '',
           file: '',
-          lang: '',
+          lang: 'en',
           interval: 60,
           dst: '0',
           tzone: '',
           tide_request: 'locationdata'
         }.merge(options)
+      end
 
+      def get_tidal_data(options)
         uri = URI("http://api.sehavniva.no" + "/tideapi.php")
 
         params = {
@@ -52,7 +62,7 @@ module Tidal
         Net::HTTP.get_response(uri)
       end
 
-      def row_to_h(row)
+      def xml_row_to_h(row)
         row.attributes.map {|name, attr|
           if attr.value.match(/\dT\d/)
             [name, Time.parse(attr.value).to_datetime]
@@ -71,11 +81,11 @@ module Tidal
 
         doc = Nokogiri::XML(res.body)
         doc.css("location").each do |row|
-          retval["location"] = row_to_h(row)
+          retval["location"] = xml_row_to_h(row)
         end
 
         doc.css("waterlevel").each do |row|
-          row_data = row_to_h(row)
+          row_data = xml_row_to_h(row)
 
           unless row_data["flag"]
             row_data["flag"] = row.parent.attributes["type"]
@@ -88,6 +98,53 @@ module Tidal
           end
         end
         retval
+      end
+
+      def get_high_low_data(options)
+        uri = URI("https://www.kartverket.no" + "/Sehavniva/Service/Portvakten/Tidevann/")
+
+        params = {
+          lat: options[:latitude],
+          lon: options[:longitude],
+          from: options[:date].strftime("%-m/%d/%Y"),
+          to: options[:date].strftime("%-m/%d/%Y"),
+          lang: options[:lang],
+          interval: 'hoylav',
+          place: '',
+          reflevel: 'CD'
+        }
+
+        uri.query = URI.encode_www_form(params)
+
+        Net::HTTP.get_response(uri)
+      end
+
+      def json_obj_to_h(obj)
+        obj.map {|key, value|
+          puts "key: #{key}, value: #{value}"
+          if value.nil?
+            [key, value]
+          elsif value.is_a?(Integer)
+            [key, value]
+          elsif value.match(/\dT\d/)
+            [key, Time.parse(value).to_datetime]
+          elsif value.match(/\d\.\d/)
+            [key, value.to_f]
+          elsif value.match(/\d/)
+            [key, value.to_i]
+          else
+            [key, value]
+          end
+        }.to_h
+      end
+
+      def parse_high_low_data(res)
+
+        parsed = JSON.parse(res.body)
+
+        #puts "data: #{parsed}"
+
+        parsed["days"][0]["data"].map {|obj| json_obj_to_h(obj) }
       end
   end
 end

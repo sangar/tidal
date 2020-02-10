@@ -33,6 +33,7 @@ module Tidal
           file: '',
           lang: 'en',
           interval: 60,
+          days: 2,
           dst: '0',
           tzone: '',
           tide_request: 'locationdata'
@@ -46,7 +47,7 @@ module Tidal
           lat: options[:latitude],
           lon: options[:longitude],
           fromtime: options[:date].strftime("%Y-%m-%dT00:00"),
-          totime: (options[:date] + 1).strftime("%Y-%m-%dT00:00"),
+          totime: (options[:date] + options[:days]).strftime("%Y-%m-%dT00:00"),
           datatype: options[:datatype],
           refcode: options[:refcode],
           place: options[:place],

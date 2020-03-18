@@ -11,4 +11,10 @@ class TidalTest < Minitest::Test
 
     assert_equal 6, tidal_data.count
   end
+
+  def test_invalid_data
+    tidal_data = Tidal.for(latitude: 58.44418, longitude: 5.99778)
+
+    assert_equal 1, tidal_data.count
+  end
 end

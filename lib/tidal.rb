@@ -141,6 +141,8 @@ module Tidal
       def parse_high_low_data(res)
         parsed = JSON.parse(res.body)
 
+        return [] unless parsed["days"].count == 2
+
         dayone = parsed["days"][0]["data"].map {|obj| json_obj_to_h(obj) }
         daytwo = parsed["days"][1]["data"].map {|obj| json_obj_to_h(obj) }
         dayone + daytwo

@@ -89,7 +89,8 @@ module Tidal
           row_data = xml_row_to_h(row)
 
           unless row_data["flag"]
-            row_data["flag"] = row.parent.attributes["type"]
+            row_data_flag = row.parent.attributes["type"].value
+            row_data["flag"] = row_data_flag
           end
 
           if retval[row_data["flag"]]

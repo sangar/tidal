@@ -32,7 +32,7 @@ module Tidal
           place: '',
           file: '',
           lang: 'en',
-          interval: 60,
+          interval: 10,
           days: 2,
           dst: '0',
           tzone: '',

@@ -11,13 +11,12 @@ module Tidal
 
       res = get_tidal_data(options)
       return unless res.is_a?(Net::HTTPSuccess)
-
       retval = parse_tidal_data(res)
 
       res = get_high_low_data(options)
       return unless res.is_a?(Net::HTTPSuccess)
-
       retval["highlow"] = parse_high_low_data(res)
+
       retval
     end
 
@@ -103,17 +102,12 @@ module Tidal
       end
 
       def get_high_low_data(options)
-        uri = URI("https://www.kartverket.no" + "/Sehavniva/Service/Portvakten/Tidevann/")
+        uri = URI("https://www.kartverket.no" + "/api/vsl/tideforecast")
 
         params = {
-          lat: options[:latitude],
-          lon: options[:longitude],
-          from: options[:date].strftime("%-m/%d/%Y"),
-          to: (options[:date] + 1).strftime("%-m/%d/%Y"),
-          lang: options[:lang],
-          interval: 'hoylav',
-          place: '',
-          reflevel: 'CD'
+          latitude: options[:latitude],
+          longitude: options[:longitude],
+          language: options[:lang]
         }
 
         uri.query = URI.encode_www_form(params)
@@ -121,32 +115,16 @@ module Tidal
         Net::HTTP.get_response(uri)
       end
 
-      def json_obj_to_h(obj)
-        obj.map {|key, value|
-          if value.nil?
-            [key, value]
-          elsif value.is_a?(Integer)
-            [key, value]
-          elsif value.match(/\dT\d/)
-            [key, Time.parse(value).to_datetime]
-          elsif value.match(/\d\.\d/)
-            [key, value.to_f]
-          elsif value.match(/\d/)
-            [key, value.to_i]
-          else
-            [key, value]
-          end
-        }.to_h
-      end
-
       def parse_high_low_data(res)
         parsed = JSON.parse(res.body)
+        result = parsed["result"]
 
-        return [] unless parsed["days"].count > 1
-
-        dayone = parsed["days"][0]["data"].map {|obj| json_obj_to_h(obj) }
-        daytwo = parsed["days"][1]["data"].map {|obj| json_obj_to_h(obj) }
-        dayone + daytwo
+        result.map {|elem|
+          {
+            "value" => elem["measurement"]["value"],
+            "time" => Time.parse(elem["dateTime"])
+          }
+        }
       end
   end
 end

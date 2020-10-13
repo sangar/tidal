@@ -122,7 +122,7 @@ module Tidal
         result.map {|elem|
           {
             "value" => elem["measurement"]["value"],
-            "time" => Time.parse(elem["dateTime"])
+            "time" => Time.parse(elem["dateTime"]).to_datetime
           }
         }
       end

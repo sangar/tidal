@@ -1,0 +1,95 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.sehavniva.no/tideapi.php?datatype=all&dst=0&file=&fromtime=2021-01-19T00:00&interval=10&lang=en&lat=58.44418&lon=5.99778&place=&refcode=cd&tide_request=locationdata&totime=2021-01-21T00:00&tzone=
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - api.sehavniva.no
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 19 Jan 2021 15:38:07 GMT
+      Server:
+      - Apache
+      X-Powered-By:
+      - PHP/5.3.3
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Length:
+      - '199'
+      Connection:
+      - close
+      Content-Type:
+      - text/xml; charset=utf-8
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        PHRpZGU+Cjxsb2NhdGlvbmRhdGE+Cjxub2RhdGEgaW5mbz0iU29ycnkuIFRoZXJlIGFyZSBubyBzZWEgbGV2ZWwgZGF0YSBmb3IgTjU4wrAyNi43JmFwb3M7ICBFNcKwNTkuOSZhcG9zOy4gVGhlIGFyZWEgYmV0d2VlbiBMaXN0YSBhbmQgVmlnZGVsIGRvZXMgbm90IGhhdmUgc3VmZmljaWVudCBkYXRhLiIvPgo8L2xvY2F0aW9uZGF0YT4KPC90aWRlPg==
+  recorded_at: Tue, 19 Jan 2021 15:38:07 GMT
+- request:
+    method: get
+    uri: https://www.kartverket.no/api/vsl/tideforecast?language=en&latitude=58.44418&longitude=5.99778
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - www.kartverket.no
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 19 Jan 2021 16:36:45 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '260'
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private
+      Set-Cookie:
+      - KartverketPublicSite=pyogrznczoa50zbvm0e3r4n2; path=/; HttpOnly; SameSite=None
+      Env:
+      - ProductionConfig
+      Request-Context:
+      - appId=cid-v1:4441e98a-762a-4460-9466-1fcb6af08df3
+      Access-Control-Expose-Headers:
+      - Request-Context
+      X-Ua-Compatible:
+      - IE=Edge
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"queryParameters":{"latitude":"58.44418","longitude":"5.99778","fromTime":"1/19/2021
+        4:38:07 PM","toTime":"1/24/2021 4:38:07 PM","referenceCode":"CD","language":"en"},"metadata":{"timestamp":"2021-01-19T15:38:07","elapsedTime":"00:00:00.2191853"},"result":[]}'
+  recorded_at: Tue, 19 Jan 2021 15:38:07 GMT
+recorded_with: VCR 6.0.0

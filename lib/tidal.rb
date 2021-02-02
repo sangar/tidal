@@ -117,7 +117,7 @@ module Tidal
 
       def parse_high_low_data(res)
         parsed = JSON.parse(res.body)
-        result = parsed["result"]
+        result = parsed["result"]["forecasts"]
 
         result.map {|elem|
           {

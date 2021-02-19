@@ -13,21 +13,33 @@ class TidalTest < Minitest::Test
 
   def test_get_data_by_search
     VCR.use_cassette("test_get_data_by_search") do
-      tidal_data = Tidal.for(latitude: 59.9128627, longitude: 10.7434443)
+      tidal_data = Tidal.for(
+          latitude: 59.9128627,
+          longitude: 10.7434443,
+          date: DateTime.parse("2021-02-19T19:33:37+01:00")
+        )
       assert_equal 6, tidal_data.count
     end
   end
 
   def test_get_data_by_search_2
     VCR.use_cassette("test_get_data_by_search_2") do
-      tidal_data = Tidal.for(latitude: 58.973981, longitude: 5.731113)
+      tidal_data = Tidal.for(
+          latitude: 58.973981,
+          longitude: 5.731113,
+          date: DateTime.parse("2021-02-19T19:33:37+01:00")
+        )
       assert_equal 6, tidal_data.count
     end
   end
 
   def test_invalid_data
     VCR.use_cassette("test_invalid_data") do
-      tidal_data = Tidal.for(latitude: 58.44418, longitude: 5.99778)
+      tidal_data = Tidal.for(
+          latitude: 58.44418,
+          longitude: 5.99778,
+          date: DateTime.parse("2021-02-19T19:33:37+01:00")
+        )
       assert_equal 1, tidal_data.count
     end
   end

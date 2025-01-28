@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://api.sehavniva.no/tideapi.php?datatype=all&dst=0&file=&fromtime=2021-02-19T00:00&interval=10&lang=en&lat=58.44418&lon=5.99778&place=&refcode=cd&tide_request=locationdata&totime=2021-02-21T00:00&tzone=
+    uri: https://www.kartverket.no/api/vsl/position/?language=en&latitude=58.44418&longitude=5.99778
     body:
       encoding: US-ASCII
       string: ''
@@ -13,47 +13,6 @@ http_interactions:
       - "*/*"
       User-Agent:
       - Ruby
-      Host:
-      - api.sehavniva.no
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Fri, 19 Feb 2021 18:31:16 GMT
-      Server:
-      - Apache
-      X-Powered-By:
-      - PHP/5.3.3
-      Access-Control-Allow-Origin:
-      - "*"
-      Content-Length:
-      - '199'
-      Connection:
-      - close
-      Content-Type:
-      - text/xml; charset=utf-8
-    body:
-      encoding: ASCII-8BIT
-      string: !binary |-
-        PHRpZGU+Cjxsb2NhdGlvbmRhdGE+Cjxub2RhdGEgaW5mbz0iU29ycnkuIFRoZXJlIGFyZSBubyBzZWEgbGV2ZWwgZGF0YSBmb3IgTjU4wrAyNi43JmFwb3M7ICBFNcKwNTkuOSZhcG9zOy4gVGhlIGFyZWEgYmV0d2VlbiBMaXN0YSBhbmQgVmlnZGVsIGRvZXMgbm90IGhhdmUgc3VmZmljaWVudCBkYXRhLiIvPgo8L2xvY2F0aW9uZGF0YT4KPC90aWRlPg==
-  recorded_at: Fri, 19 Feb 2021 18:31:16 GMT
-- request:
-    method: get
-    uri: https://www.kartverket.no/api/vsl/tideforecast?language=en&latitude=58.44418&longitude=5.99778
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-      Host:
-      - www.kartverket.no
   response:
     status:
       code: 200
@@ -62,23 +21,19 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Fri, 19 Feb 2021 19:30:49 GMT
+      - Tue, 28 Jan 2025 22:13:48 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '712'
+      - '613'
       Connection:
       - keep-alive
       Cache-Control:
       - private
       Set-Cookie:
-      - KartverketPublicSite=1zplbrqltax5mqbsd4ebqz3w; path=/; HttpOnly; SameSite=None
+      - KartverketPublicSite=z4x2pmaibqyf4jmhdoywjsdl; path=/; HttpOnly; SameSite=None
       Env:
       - ProductionConfig
-      Request-Context:
-      - appId=cid-v1:4441e98a-762a-4460-9466-1fcb6af08df3
-      Access-Control-Expose-Headers:
-      - Request-Context
       X-Ua-Compatible:
       - IE=Edge
       X-Frame-Options:
@@ -87,11 +42,11 @@ http_interactions:
       - nosniff
       X-Xss-Protection:
       - 1; mode=block
+      Access-Control-Allow-Origin:
+      - "*"
     body:
-      encoding: UTF-8
-      string: '{"queryParameters":{"latitude":"58.44418","longitude":"5.99778","fromTime":"2/19/2021
-        7:31:17 PM","toTime":"2/24/2021 7:31:17 PM","referenceCode":"CD","language":"en"},"metadata":{"timestamp":"2021-02-19T18:31:17","elapsedTime":"00:00:00.3330384"},"result":{"forecasts":[],"downloadLinks":[{"name":"Adobe
-        PDF","href":"https://api.sehavniva.no/tideapi.php?tide_request=locationdata&lat=58.44418&lon=5.99778&refcode=MSL&datatype=TAB&fromtime=2021-02-19&totime=2021-02-24&interval=10&lang=en&file=PDF"},{"name":"Text
-        file","href":"https://api.sehavniva.no/tideapi.php?tide_request=locationdata&lat=58.44418&lon=5.99778&refcode=MSL&datatype=TAB&fromtime=2021-02-19&totime=2021-02-24&interval=10&lang=en&file=TXT"}]}}'
-  recorded_at: Fri, 19 Feb 2021 18:31:17 GMT
-recorded_with: VCR 6.0.0
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJxdWVyeVBhcmFtZXRlcnMiOnsibGF0aXR1ZGUiOiI1OC40NDQxOCIsImxvbmdpdHVkZSI6IjUuOTk3NzgiLCJsYW5ndWFnZSI6ImVuIiwiaWQiOiIwIn0sIm1ldGFkYXRhIjp7InRpbWVzdGFtcCI6IjIwMjUtMDEtMjhUMjI6MTM6NDgifSwicmVzdWx0Ijp7ImlkIjpudWxsLCJuYW1lIjpudWxsLCJsb25naXR1ZGUiOiI1Ljk5Nzc4IiwibGF0aXR1ZGUiOiI1OC40NDQxOCIsImNvdW50eSI6bnVsbCwibXVuaWNpcGFsaXR5IjpudWxsLCJpbmZvcm1hdGlvbk1lc3NhZ2UiOiJTb3JyeS4gVGhlcmUgYXJlIG5vIHNlYSBsZXZlbCBkYXRhIGZvciBONTjCsDI2LjcnICBFNcKwNTkuOScuIFRoZSBhcmVhIGJldHdlZW4gTGlzdGEgYW5kIFZpZ2RlbCBkb2VzIG5vdCBoYXZlIHN1ZmZpY2llbnQgZGF0YS4gSW4gU2VwdGVtYmVyIDIwMjIgdGhlIE5vcndlZ2lhbiBNYXBwaW5nIEF1dGhvcml0eSBpbnN0YWxsZWQgYSBwZXJtYW5lbnQgdGlkZSBnYXVnZSBpbiBTaXJldsOlZyB0aGF0IGluIHRpbWUgd2lsbCBwcm92aWRlIGRhdGEgZm9yIHBhcnRzIG9mIHRoZSBhcmVhLiIsInN0YXRpb25EYXRhIjpudWxsLCJzZWFyY2hNZXRob2QiOiJDb29yZGluYXRlcyIsInNob3dFcnJvciI6ZmFsc2V9fQ==
+  recorded_at: Tue, 28 Jan 2025 22:13:48 GMT
+recorded_with: VCR 6.3.1

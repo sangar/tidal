@@ -1,7 +1,6 @@
 require "tidal/version"
 require "date"
 require "net/http"
-require "nokogiri"
 require "time"
 
 module Tidal
@@ -9,9 +8,15 @@ module Tidal
     def for(options)
       options = merge_default_params(options)
 
+      retval = {}
+
+      res = get_position_data(options)
+      return unless res.is_a?(Net::HTTPSuccess)
+      retval["location"] = parse_position_data(res)
+
       res = get_tidal_data(options)
       return unless res.is_a?(Net::HTTPSuccess)
-      retval = parse_tidal_data(res)
+      retval.merge!(parse_tidal_data(res))
 
       res = get_high_low_data(options)
       return unless res.is_a?(Net::HTTPSuccess)
@@ -25,79 +30,111 @@ module Tidal
         {
           latitude: nil,
           longitude: nil,
-          date: DateTime.now,
-          datatype: "all",
-          refcode: "cd",
-          place: '',
-          file: '',
-          lang: 'en',
+          language: 'en',
           interval: 10,
+          date: DateTime.now,
+          referenceCode: "CD",
+          place: '',
           days: 2,
-          dst: '0',
-          tzone: '',
-          tide_request: 'locationdata'
         }.merge(options)
       end
 
-      def get_tidal_data(options)
-        uri = URI("http://api.sehavniva.no" + "/tideapi.php")
+      def get_position_data(options)
+        uri = URI("https://www.kartverket.no" + "/api/vsl/position/")
 
         params = {
-          lat: options[:latitude],
-          lon: options[:longitude],
-          fromtime: options[:date].strftime("%Y-%m-%dT00:00"),
-          totime: (options[:date] + options[:days]).strftime("%Y-%m-%dT00:00"),
-          datatype: options[:datatype],
-          refcode: options[:refcode],
-          place: options[:place],
-          file: options[:file],
-          lang: options[:lang],
-          interval: options[:interval],
-          dst: options[:dst],
-          tzone: options[:tzone],
-          tide_request: options[:tide_request]
+          latitude: options[:latitude],
+          longitude: options[:longitude],
+          language: options[:language],
         }
         uri.query = URI.encode_www_form(params)
 
         Net::HTTP.get_response(uri)
       end
 
-      def xml_row_to_h(row)
-        row.attributes.map {|name, attr|
-          if attr.value.match(/\dT\d/)
-            [name, Time.parse(attr.value).to_datetime]
-          elsif attr.value.match(/\d\.\d/)
-            [name, attr.value.to_f]
-          elsif attr.value.match(/\d/)
-            [name, attr.value.to_i]
-          else
-            [name, attr.value]
-          end
-        }.to_h
+      def parse_position_data(res)
+        data = JSON.parse(res.body)
+        result = data["result"]
+        station_data = result["stationData"]
+
+        raise "No station data available!" if station_data.nil?
+
+        {
+          "name" => station_data["name"],
+          "code" => station_data["code"],
+          "latitude" => station_data["latitude"].to_f,
+          "longitude" => station_data["longitude"].to_f,
+          "delay" => station_data["delay"],
+          "factor" => station_data["factor"],
+          "obsname" => station_data["obsName"],
+          "obscode" => station_data["obsCode"],
+          "descr" => station_data["description"],
+        }
+      end
+
+      def get_tidal_data(options)
+        uri = URI("https://www.kartverket.no" + "/api/vsl/waterLevels/")
+
+        params = {
+          latitude: options[:latitude],
+          longitude: options[:longitude],
+          language: options[:language],
+          interval: options[:interval],
+          fromTime: options[:date].strftime("%Y-%m-%dT00:00"),
+          toTime: (options[:date] + options[:days]).strftime("%Y-%m-%dT00:00"),
+          #datatype: options[:datatype],
+          referenceCode: options[:referenceCode],
+          place: options[:place],
+          #file: options[:file],
+          #dst: options[:dst],
+          #tzone: options[:tzone],
+          #tide_request: options[:tide_request]
+        }
+        uri.query = URI.encode_www_form(params)
+
+        Net::HTTP.get_response(uri)
       end
 
       def parse_tidal_data(res)
-        retval = {}
+        retval = {
+          "obs" => [],
+          "pre" => [],
+          "weathereffect" => [],
+          "forecast" => [],
+        }
 
-        doc = Nokogiri::XML(res.body)
-        doc.css("location").each do |row|
-          retval["location"] = xml_row_to_h(row)
+        data = JSON.parse(res.body)
+
+        result = data["result"]
+        result["observations"].each do |obs|
+          retval["obs"].push({
+            "value" => obs["measurement"]["value"],
+            "time" => Time.parse(obs["dateTime"]).to_datetime,
+            "flag" => "obs"
+          })
+        end
+        result["predictions"].each do |pre|
+          retval["pre"].push({
+            "value" => pre["measurement"]["value"],
+            "time" => Time.parse(pre["dateTime"]).to_datetime,
+            "flag" => "pre"
+          })
+        end
+        result["weatherEffects"].each do |we|
+          retval["weathereffect"].push({
+            "value" => we["measurement"]["value"],
+            "time" => Time.parse(we["dateTime"]).to_datetime,
+            "flag" => "weathereffect"
+          })
+        end
+        result["forecasts"].each do |forecast|
+          retval["forecast"].push({
+            "value" => forecast["measurement"]["value"],
+            "time" => Time.parse(forecast["dateTime"]).to_datetime,
+            "flag" => "forecast"
+          })
         end
 
-        doc.css("waterlevel").each do |row|
-          row_data = xml_row_to_h(row)
-
-          unless row_data["flag"]
-            row_data_flag = row.parent.attributes["type"].value
-            row_data["flag"] = row_data_flag
-          end
-
-          if retval[row_data["flag"]]
-            retval[row_data["flag"]] << row_data
-          else
-            retval[row_data["flag"]] = [row_data]
-          end
-        end
         retval
       end
 
@@ -107,7 +144,7 @@ module Tidal
         params = {
           latitude: options[:latitude],
           longitude: options[:longitude],
-          language: options[:lang]
+          language: options[:language]
         }
 
         uri.query = URI.encode_www_form(params)

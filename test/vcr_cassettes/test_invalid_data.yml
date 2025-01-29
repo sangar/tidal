@@ -13,6 +13,8 @@ http_interactions:
       - "*/*"
       User-Agent:
       - Ruby
+      Host:
+      - www.kartverket.no
   response:
     status:
       code: 200
@@ -21,7 +23,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Tue, 28 Jan 2025 22:13:48 GMT
+      - Wed, 29 Jan 2025 08:40:44 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
@@ -31,7 +33,7 @@ http_interactions:
       Cache-Control:
       - private
       Set-Cookie:
-      - KartverketPublicSite=z4x2pmaibqyf4jmhdoywjsdl; path=/; HttpOnly; SameSite=None
+      - KartverketPublicSite=x5wwzhjantc3owdqo3nkm25z; path=/; HttpOnly; SameSite=None
       Env:
       - ProductionConfig
       X-Ua-Compatible:
@@ -47,6 +49,6 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJxdWVyeVBhcmFtZXRlcnMiOnsibGF0aXR1ZGUiOiI1OC40NDQxOCIsImxvbmdpdHVkZSI6IjUuOTk3NzgiLCJsYW5ndWFnZSI6ImVuIiwiaWQiOiIwIn0sIm1ldGFkYXRhIjp7InRpbWVzdGFtcCI6IjIwMjUtMDEtMjhUMjI6MTM6NDgifSwicmVzdWx0Ijp7ImlkIjpudWxsLCJuYW1lIjpudWxsLCJsb25naXR1ZGUiOiI1Ljk5Nzc4IiwibGF0aXR1ZGUiOiI1OC40NDQxOCIsImNvdW50eSI6bnVsbCwibXVuaWNpcGFsaXR5IjpudWxsLCJpbmZvcm1hdGlvbk1lc3NhZ2UiOiJTb3JyeS4gVGhlcmUgYXJlIG5vIHNlYSBsZXZlbCBkYXRhIGZvciBONTjCsDI2LjcnICBFNcKwNTkuOScuIFRoZSBhcmVhIGJldHdlZW4gTGlzdGEgYW5kIFZpZ2RlbCBkb2VzIG5vdCBoYXZlIHN1ZmZpY2llbnQgZGF0YS4gSW4gU2VwdGVtYmVyIDIwMjIgdGhlIE5vcndlZ2lhbiBNYXBwaW5nIEF1dGhvcml0eSBpbnN0YWxsZWQgYSBwZXJtYW5lbnQgdGlkZSBnYXVnZSBpbiBTaXJldsOlZyB0aGF0IGluIHRpbWUgd2lsbCBwcm92aWRlIGRhdGEgZm9yIHBhcnRzIG9mIHRoZSBhcmVhLiIsInN0YXRpb25EYXRhIjpudWxsLCJzZWFyY2hNZXRob2QiOiJDb29yZGluYXRlcyIsInNob3dFcnJvciI6ZmFsc2V9fQ==
-  recorded_at: Tue, 28 Jan 2025 22:13:48 GMT
-recorded_with: VCR 6.3.1
+        eyJxdWVyeVBhcmFtZXRlcnMiOnsibGF0aXR1ZGUiOiI1OC40NDQxOCIsImxvbmdpdHVkZSI6IjUuOTk3NzgiLCJsYW5ndWFnZSI6ImVuIiwiaWQiOiIwIn0sIm1ldGFkYXRhIjp7InRpbWVzdGFtcCI6IjIwMjUtMDEtMjlUMDg6NDA6NDQifSwicmVzdWx0Ijp7ImlkIjpudWxsLCJuYW1lIjpudWxsLCJsb25naXR1ZGUiOiI1Ljk5Nzc4IiwibGF0aXR1ZGUiOiI1OC40NDQxOCIsImNvdW50eSI6bnVsbCwibXVuaWNpcGFsaXR5IjpudWxsLCJpbmZvcm1hdGlvbk1lc3NhZ2UiOiJTb3JyeS4gVGhlcmUgYXJlIG5vIHNlYSBsZXZlbCBkYXRhIGZvciBONTjCsDI2LjcnICBFNcKwNTkuOScuIFRoZSBhcmVhIGJldHdlZW4gTGlzdGEgYW5kIFZpZ2RlbCBkb2VzIG5vdCBoYXZlIHN1ZmZpY2llbnQgZGF0YS4gSW4gU2VwdGVtYmVyIDIwMjIgdGhlIE5vcndlZ2lhbiBNYXBwaW5nIEF1dGhvcml0eSBpbnN0YWxsZWQgYSBwZXJtYW5lbnQgdGlkZSBnYXVnZSBpbiBTaXJldsOlZyB0aGF0IGluIHRpbWUgd2lsbCBwcm92aWRlIGRhdGEgZm9yIHBhcnRzIG9mIHRoZSBhcmVhLiIsInN0YXRpb25EYXRhIjpudWxsLCJzZWFyY2hNZXRob2QiOiJDb29yZGluYXRlcyIsInNob3dFcnJvciI6ZmFsc2V9fQ==
+  recorded_at: Wed, 29 Jan 2025 08:40:44 GMT
+recorded_with: VCR 6.2.0

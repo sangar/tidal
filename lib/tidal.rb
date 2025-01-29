@@ -82,13 +82,8 @@ module Tidal
           interval: options[:interval],
           fromTime: options[:date].strftime("%Y-%m-%dT00:00"),
           toTime: (options[:date] + options[:days]).strftime("%Y-%m-%dT00:00"),
-          #datatype: options[:datatype],
           referenceCode: options[:referenceCode],
           place: options[:place],
-          #file: options[:file],
-          #dst: options[:dst],
-          #tzone: options[:tzone],
-          #tide_request: options[:tide_request]
         }
         uri.query = URI.encode_www_form(params)
 
@@ -107,6 +102,8 @@ module Tidal
 
         result = data["result"]
         result["observations"].each do |obs|
+          next if obs["measurement"].nil?
+
           retval["obs"].push({
             "value" => obs["measurement"]["value"],
             "time" => Time.parse(obs["dateTime"]).to_datetime,
@@ -121,6 +118,8 @@ module Tidal
           })
         end
         result["weatherEffects"].each do |we|
+          next if we["measurement"].nil?
+
           retval["weathereffect"].push({
             "value" => we["measurement"]["value"],
             "time" => Time.parse(we["dateTime"]).to_datetime,

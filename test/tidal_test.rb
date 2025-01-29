@@ -16,7 +16,7 @@ class TidalTest < Minitest::Test
       tidal_data = Tidal.for(
           latitude: 59.9128627,
           longitude: 10.7434443,
-          date: DateTime.parse("2021-02-19T19:33:37+01:00")
+          date: DateTime.parse("2025-01-29T09:33:37+01:00")
         )
 
       assert_equal 6, tidal_data.count
@@ -33,29 +33,31 @@ class TidalTest < Minitest::Test
       assert_equal "Tides and observed water level from Oslo", location["descr"]
 
       obs = tidal_data["obs"]
-      assert_equal 433, obs.count
-      assert_equal 67.0, obs[0]["value"]
-      assert_equal 66.0, obs[1]["value"]
+      assert_equal 57, obs.count
+      assert_equal 74.2, obs[0]["value"]
+      assert_equal 75.1, obs[1]["value"]
 
       pre = tidal_data["pre"]
       assert_equal 433, pre.count
-      assert_equal 80.8, pre[0]["value"]
-      assert_equal 80.1, pre[1]["value"]
+      assert_equal 60.9, pre[0]["value"]
+      assert_equal 61.9, pre[1]["value"]
 
       weathereffect = tidal_data["weathereffect"]
-      assert_equal 433, weathereffect.count
-      assert_equal -13.8, weathereffect[0]["value"]
-      assert_equal -14.2, weathereffect[1]["value"]
+      assert_equal 57, weathereffect.count
+      assert_equal 13.3, weathereffect[0]["value"]
+      assert_equal 13.1, weathereffect[1]["value"]
 
       forecast = tidal_data["forecast"]
-      assert_equal 0, forecast.count
+      assert_equal 433, forecast.count
+      assert_equal 61.9, forecast[0]["value"]
+      assert_equal 59.9, forecast[1]["value"]
 
       highlow = tidal_data["highlow"]
       assert_equal 23, highlow.count
-      assert_equal 87.9, highlow[0]["value"]
-      assert_equal Time.parse("2025-01-28T04:38:00+01:00").to_datetime, highlow[0]["time"]
-      assert_equal 54.4, highlow[1]["value"]
-      assert_equal Time.parse("2025-01-28T09:59:00+01:00").to_datetime, highlow[1]["time"]
+      assert_equal 85.5, highlow[0]["value"]
+      assert_equal Time.parse("2025-01-29T05:24:00+01:00").to_datetime, highlow[0]["time"]
+      assert_equal 53.0, highlow[1]["value"]
+      assert_equal Time.parse("2025-01-29T10:33:00+01:00").to_datetime, highlow[1]["time"]
     end
   end
 

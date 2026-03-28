@@ -111,6 +111,8 @@ module Tidal
           })
         end
         result["predictions"].each do |pre|
+          next if pre["measurement"].nil?
+
           retval["pre"].push({
             "value" => pre["measurement"]["value"],
             "time" => Time.parse(pre["dateTime"]).to_datetime,
@@ -127,6 +129,8 @@ module Tidal
           })
         end
         result["forecasts"].each do |forecast|
+          next if forecast["measurement"].nil?
+
           retval["forecast"].push({
             "value" => forecast["measurement"]["value"],
             "time" => Time.parse(forecast["dateTime"]).to_datetime,
